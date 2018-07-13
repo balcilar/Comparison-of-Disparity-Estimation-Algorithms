@@ -1,4 +1,7 @@
 function tu=twotimeres(u)
+%% Written by Muhammet Balcilar, France,
+%% all rights reserved
+
 [a b c]=size(u);
 tu=zeros(2*a,2*b,c);
 tu(1:2:2*a,1:2:2*b,:)=u;
