@@ -1,4 +1,6 @@
 function dispImg=blockmatching(leftG,rightG,blockSize,maxd)
+%% Written by Muhammet Balcilar, France,
+%% all rights reserved
 
 if length(size(leftG))==3
     % convert it grayscale
