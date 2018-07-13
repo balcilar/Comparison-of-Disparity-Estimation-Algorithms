@@ -1,4 +1,9 @@
 function dst=msg2(S1,S2,S3,S4)
+
+%% Written by Muhammet Balcilar, France,
+%% all rights reserved
+
+
 [a b c]=size(S1);
 
 s1=reshape(S1,[a*b,c])';
