@@ -1,4 +1,6 @@
 function dmap=blockmatching_DW(leftG,rightG,blockSize,maxd,cost)
+%% Written by Muhammet Balcilar, France,
+%% all rights reserved
 
 if length(size(leftG))==3
     % convert it grayscale
