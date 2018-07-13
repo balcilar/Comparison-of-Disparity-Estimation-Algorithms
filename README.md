@@ -42,17 +42,17 @@ We can summarize implemented BP method as follows.
 
 * Step2. Calculate the absolute error for every level. Each level’s resolution is half of the previous one. So if the first original resolution is 100x100. Second level has 50x50, third level has 25x25, so on so forth.
 
-*Step3. Set the matrixes which keep, down, left and right pixel’s values from coarser level. First initialize all 4 matrix all zeros. Set level for coarser level (last level)
+* Step3. Set the matrixes which keep, down, left and right pixel’s values from coarser level. First initialize all 4 matrix all zeros. Set level for coarser level (last level)
 
 * Step4. Simulate message passing and update  both 4 matrix and repeat it for number of iter times.
 
 * Step5. Decrease level by 1 and Go step 4. If the 1st level reach go step 6.
 
-*Step6. Find sum of left, right, up, down and level 1 absolute difference value.
+* Step6. Find sum of left, right, up, down and level 1 absolute difference value.
 
-*Step 7. Find the displacement index where the value is minimum for concerned location.
+* Step 7. Find the displacement index where the value is minimum for concerned location.
 
-*Step 8. Set fond index as disparity of concerned pixel.
+* Step 8. Set fond index as disparity of concerned pixel.
 
 
 
