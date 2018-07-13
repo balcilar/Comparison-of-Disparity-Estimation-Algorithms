@@ -19,6 +19,18 @@ In that formula (y,x) refers pixel position of the image. Ileft and Iright shows
 
 Which means, we need to select optimum d value which provide us minimum diff value which calculated for location (y,x) along the 2*W+1 block size.
 
+## Block Matching with Dynamic Programming Approach
+
+The most problematic side of simple block matching is it is lack of provide a spatial consistency which means the output of simple matching algorithm has big variation. That is why we can see too many artifact on the result. The main reason of that problem is simple block matching just tries to find best match blocks but not take into account the neighbor pixels disparity. To take the neighborhood pixel’s disparity into account, we implemented dynamic programming optimization algorithm which increase the cost of the match whose matching block is far away from expected position. In that approach we used the same block match approach and SAD error measure as simple method as well. But instead of just searching minimum SAD error block, we used cost value if neighborhood pixel’s disparity is different from each other. For example in any row suppose first block has match with 10pixels away block. That means, for second block, 10 pixel away block again should be expected block which has zero extra penalty. But 9 pixel away or 11 pixel away block has one unit cost in addition to SAD value of corresponding block. And also 8 pixel away and 12 pixel away block has two unit of cost in addition to their SAD error value and this calculation carries on so on. With using that schema, we provide the smooth disparities which means we take the neighborhood disparity in to account which means spatial consistency as well [2].  
+In mathematically speaking, our dynamic programming implementation follows following steps.
+
+*C_y (k,l)=∑_(-W≤j≤W)∑_(-W≤i≤W)|I_left (y+j,x+i+k)-I_right (y+j,x+i+l)|      k=[1..N],l=[k,..M]*
+
+*C_y (k,l)=C_y (k,l)+min⁡(C_y (k-1,l-s:l+s)+γd_(k,l-s:l+s) )     k=[1..N],l=[k,..M]*
+
+In first step we calculate certain rows (yth row) possible matching SAD value. C_y (k,l) indicates the SAD cost between kth column in the left image to lth column in the right image at yth row. In second step, we aggregate the error value with using actual SAD between blocks but also their disparity differences which refers by  d_kl, In that formula we add minimum of previous column SAD error plus disparity differences times cost value into actual SAD value. In that formula, γ indicates the unit penalty value if certain blocks has different disparity. As you can see we try to find minimum cost value in range of [-s +s] neighborhood. 
+With using Dynamic programming Schema, we can find the best path with backtracking. Basically we start to find minimum aggregated cost value  C_y, and find the minimum path from the last column of concerned row to the first column. After all, the path shows us the calculated disparity with dynamic programming.
+
 
 ## Reference
 [1] Y.Chen, Y.Hung et al.2001.Fast Block Matching Algorithm Based on the Winner-Update Strategy. In IEEE, 10(8), pp.1212-1222
