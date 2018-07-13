@@ -1,4 +1,7 @@
 function data=comp_data(img1, img2, maxdisp,maxdif,lambda)
+%% Written by Muhammet Balcilar, France,
+%% all rights reserved
+
 h = fspecial('gaussian',5,0.7);
 
 img1=double(imfilter(img1,h));
