@@ -1,4 +1,8 @@
 function outimg=beliefPropStereo(img1,img2,maxdisp,levels,iter)
+
+%% Written by Muhammet Balcilar, France,
+%% all rights reserved
+
 if length(size(img1))==3
     % convert it grayscale
     img1 = mean(img1, 3);
