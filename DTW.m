@@ -1,5 +1,7 @@
 function c=DTW(blockR,blockL,maxd,cost)
 
+%% Written by Muhammet Balcilar, France,
+%% all rights reserved
 
 b=size(blockR,1);
 
