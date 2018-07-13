@@ -1,4 +1,6 @@
 function [u,d,l,r]=beliefpropagatio(u, d, l, r, data, iter)
+%% Written by Muhammet Balcilar, France,
+%% all rights reserved
 
 [height width c]=size(data);
 if height > 2 & width> 2
