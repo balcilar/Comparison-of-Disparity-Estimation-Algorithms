@@ -62,8 +62,16 @@ We did several tests with mentioned three algorithm. Our first test on Tsukuba i
 
 
 There is the 3 different method output under block size 11, maximum disparity 15, unit cost value for dynamic programming is 100, level for belief network is 10 and number of iteration for belief network is 10 as well.
-We also calculate the correlation of both three method to the ground truth image as well. According to out test simple block matching correlation coefficient is 0.81, dynamic programming reach 0.85, but belief network reach 0.88 coefficient value which has stronger correlation with ground truth image.
+We also calculate the correlation of both three method to the ground truth image as well. According to out test simple block matching correlation coefficient is 0.81, dynamic programming reach 0.85, but belief network reach 0.88 coefficient value which has stronger correlation with ground truth image. Here is the results of all three methods.
 
+![Sample image](Outputs/res1.jpg?raw=true "Title")
+
+We wanted to measure the method accuracy under different level of Gaussian noise. To do that, we added zero mean but 0.02 variance Gaussian noise. Following image shows the noise effect on left image. Using noisy left and right image. We took following result from both three method as follows. And also correlation coefficient found 0.51, 0.59 and 0.84 for all three method respectfully. Here is noisy input image and its results under methods.
+
+![Sample image](Outputs/res2.jpg?raw=true "Title")
+
+## Conclusion
+Our tests shows us the global optimization method which take into account of neighborhood disparity both horizontal and vertical axis outperformed other with very large differences. Especially when we add some noise, since the simple block matching method just tries to find minimum SAD value regardless of pixel neighborhood, it fails in many pixels. But dynamic programming approach can handle some error but not at all. As you can see especially it gives better results horizontally. But since it does not take the vertical neighborhood into account it fails significant amount of pixel. At the end belief propagation method  provide us better results.
 
 
 ## Reference
