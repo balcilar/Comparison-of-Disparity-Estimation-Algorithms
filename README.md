@@ -18,6 +18,11 @@ In that formula (y,x) refers pixel position of the image. Ileft and Iright shows
 *disparity(y,x)=argmin┬d⁡(diff(y,x)_d)*
 
 Which means, we need to select optimum d value which provide us minimum diff value which calculated for location (y,x) along the 2*W+1 block size.
+To run that method, we provide a function named blockmatching, you can test it with following command,
+```
+disp=blockmatching(leftI,rightI,blockSize,maxd);
+```
+In that command, you should give left image, right image, blocksize and maximum disparity as parameter, then you will get calculated disparity map.
 
 ## Block Matching with Dynamic Programming Approach
 
@@ -30,6 +35,12 @@ In mathematically speaking, our dynamic programming implementation follows follo
 
 In first step we calculate certain rows (yth row) possible matching SAD value. C_y (k,l) indicates the SAD cost between kth column in the left image to lth column in the right image at yth row. In second step, we aggregate the error value with using actual SAD between blocks but also their disparity differences which refers by  d_kl, In that formula we add minimum of previous column SAD error plus disparity differences times cost value into actual SAD value. In that formula, γ indicates the unit penalty value if certain blocks has different disparity. As you can see we try to find minimum cost value in range of [-s +s] neighborhood. 
 With using Dynamic programming Schema, we can find the best path with backtracking. Basically we start to find minimum aggregated cost value  C_y, and find the minimum path from the last column of concerned row to the first column. After all, the path shows us the calculated disparity with dynamic programming.
+
+To run that method, we provide a function named blockmatching_DW, you can test it with following command,
+```
+dmap=blockmatching_DW(leftI,rightI,blockSize,maxd,cost);
+```
+In that command, you should give left image, right image, blocksize, maximum disparity and cost as parameter, then you will get calculated disparity map.
 
 ## Stereo Matching Using Belief Propagation
 
@@ -54,6 +65,13 @@ We can summarize implemented BP method as follows.
 
 * Step8. Set fond index as disparity of concerned pixel.
 
+To run that method, we provide a function named beliefPropStereo, you can test it with following command,
+```
+disp=beliefPropStereo(leftI,rightI,maxd,levels,iter);
+```
+In that command, you should give left image, right image, maximum disparity, number of level and number of iteration as parameter, then you will get calculated disparity map.
+
+
 ## Results
 
 We did several tests with mentioned three algorithm. Our first test on Tsukuba image. In original dataset, 5 different images and one ground truth image are provided. Since the ground truth image was for 3th order image, we selected 3th image as left image and 4th image as right image. Here is left image and its ground truth disparity map.
@@ -62,11 +80,22 @@ We did several tests with mentioned three algorithm. Our first test on Tsukuba i
 
 
 There is the 3 different method output under block size 11, maximum disparity 15, unit cost value for dynamic programming is 100, level for belief network is 10 and number of iteration for belief network is 10 as well.
-We also calculate the correlation of both three method to the ground truth image as well. According to out test simple block matching correlation coefficient is 0.81, dynamic programming reach 0.85, but belief network reach 0.88 coefficient value which has stronger correlation with ground truth image. Here is the results of all three methods.
+We also calculate the correlation of both three method to the ground truth image as well. According to out test simple block matching correlation coefficient is 0.81, dynamic programming reach 0.85, but belief network reach 0.88 coefficient value which has stronger correlation with ground truth image. You can run that test with main script with following command.
+
+```
+> main
+```
+Here is the results of all three methods.
 
 ![Sample image](Outputs/res1.jpg?raw=true "Title")
 
-We wanted to measure the method accuracy under different level of Gaussian noise. To do that, we added zero mean but 0.02 variance Gaussian noise. Following image shows the noise effect on left image. Using noisy left and right image. We took following result from both three method as follows. And also correlation coefficient found 0.51, 0.59 and 0.84 for all three method respectfully. Here is noisy input image and its results under methods.
+We wanted to measure the method accuracy under different level of Gaussian noise. To do that, we added zero mean but 0.02 variance Gaussian noise. Following image shows the noise effect on left image. Using noisy left and right image. We took following result from both three method as follows. And also correlation coefficient found 0.51, 0.59 and 0.84 for all three method respectfully. You can run that test with main_noise script with following command.
+
+```
+> main_noise
+```
+
+Here is noisy input image and its results under methods.
 
 ![Sample image](Outputs/res2.jpg?raw=true "Title")
 
