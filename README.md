@@ -56,7 +56,12 @@ We can summarize implemented BP method as follows.
 
 ## Results
 
-We did several tests with mentioned three algorithm. Our first test on Tsukuba image. In original dataset, 5 different images and one ground truth image are provided. Since the ground truth image was for 3th order image, we selected 3th image as left image and 4th image as right image. There is the 3 different method output under block size 11, maximum disparity 15, unit cost value for dynamic programming is 100, level for belief network is 10 and number of iteration for belief network is 10 as well.
+We did several tests with mentioned three algorithm. Our first test on Tsukuba image. In original dataset, 5 different images and one ground truth image are provided. Since the ground truth image was for 3th order image, we selected 3th image as left image and 4th image as right image. Here is left image and its ground truth disparity map.
+
+![Sample image](Outputs/org.jpg?raw=true "Title")
+
+
+There is the 3 different method output under block size 11, maximum disparity 15, unit cost value for dynamic programming is 100, level for belief network is 10 and number of iteration for belief network is 10 as well.
 We also calculate the correlation of both three method to the ground truth image as well. According to out test simple block matching correlation coefficient is 0.81, dynamic programming reach 0.85, but belief network reach 0.88 coefficient value which has stronger correlation with ground truth image.
 
 
