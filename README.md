@@ -31,6 +31,30 @@ In mathematically speaking, our dynamic programming implementation follows follo
 In first step we calculate certain rows (yth row) possible matching SAD value. C_y (k,l) indicates the SAD cost between kth column in the left image to lth column in the right image at yth row. In second step, we aggregate the error value with using actual SAD between blocks but also their disparity differences which refers by  d_kl, In that formula we add minimum of previous column SAD error plus disparity differences times cost value into actual SAD value. In that formula, γ indicates the unit penalty value if certain blocks has different disparity. As you can see we try to find minimum cost value in range of [-s +s] neighborhood. 
 With using Dynamic programming Schema, we can find the best path with backtracking. Basically we start to find minimum aggregated cost value  C_y, and find the minimum path from the last column of concerned row to the first column. After all, the path shows us the calculated disparity with dynamic programming.
 
+## Stereo Matching Using Belief Propagation
+
+Disparity estimation is an image labeling problem. It is modeled by Markov Random Field (MRF), and the energy minimization task is solved by some popular global optimization methods, i.e. Graph Cut and Belief Propagation. There are two categories of global optimization such as one dimension and two dimension optimization methods. One dimension optimization is traditional method where its estimation on the disparity is focusing on a pixel that depending on other pixels on the same scanline but independent on disparity that focus on other scanlines as how our previous dynamic programming performs. One dimension is not considered as a truly global optimization as its smoothness technique is only focus on horizontal direction. However, one dimension optimization is still being used by some of the researchers due to its simple implementation and its effectiveness on the disparity maps outputs. On the part of disparity optimization, the global optimization algorithm that chosen for this research is using Belief Propagation method.
+Belief propagation (BP) is one of powerful tools for learning low-level vision problems, such as motion analysis, unwrapping phase images, stereo matching, inferring shape and reflectance from photograph, or extrapolating image detail. The key idea of BP is simplified Bayes Net. It propagates information throughout a graphical model via a series of messages sent between neighboring nodes iteratively. The algorithm consists of simple local updates that can be executed and are guaranteed to converge to the correct probabilities. The term belief update is used to describe the scheme for computing the function of probabilistic belief. His algorithm is equivalent to schemes proposed independently in a wide range of fields including information theory, signal processing and optimal estimation. 
+The disparity estimation problem can be modeled with MRFs and then solved by the BP algorithms [3]. Since the BP algorithm is computationally expensive, some algorithmic techniques are proposed in [3] to substantially improve the running time of the loopy BP approach. One of the techniques reduces the complexity of the inference algorithm to be linear rather than quadratic in the number of possible labels for each pixel. Another technique speeds up and reduces the memory requirements of BP on grid graphs. A third technique is a multi-grid method that makes it possible to obtain good results with a small fixed number of message passing iterations, independent of the size of the input images. In our project the third choice which is using multi scale techniques was used.
+We can summarize implemented BP method as follows.
+
+* Step1. Calculate full resolution pixel absolute differences under from 0 disparity to maximum disparity. Assume if possible maximum disparity is 16. It means we should calculate 16 different image matrix and each of them should the absolute differences between left image and shifted right image.
+
+* Step2. Calculate the absolute error for every level. Each level’s resolution is half of the previous one. So if the first original resolution is 100x100. Second level has 50x50, third level has 25x25, so on so forth.
+
+*Step3. Set the matrixes which keep, down, left and right pixel’s values from coarser level. First initialize all 4 matrix all zeros. Set level for coarser level (last level)
+
+* Step4. Simulate message passing and update  both 4 matrix and repeat it for number of iter times.
+
+* Step5. Decrease level by 1 and Go step 4. If the 1st level reach go step 6.
+
+*Step6. Find sum of left, right, up, down and level 1 absolute difference value.
+
+*Step 7. Find the displacement index where the value is minimum for concerned location.
+
+*Step 8. Set fond index as disparity of concerned pixel.
+
+
 
 ## Reference
 [1] Y.Chen, Y.Hung et al.2001.Fast Block Matching Algorithm Based on the Winner-Update Strategy. In IEEE, 10(8), pp.1212-1222
