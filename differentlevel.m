@@ -1,6 +1,7 @@
 clear all
 clc
-
+%% Written by Muhammet Balcilar, France,
+%% all rights reserved
 
 % read reference image as left adn right image
 leftI = imread('scene1.row3.col3.ppm');
