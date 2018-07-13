@@ -1,5 +1,24 @@
 # Comparison of Disparity Estimation Algorithms
 
+Stereo matching, which is the most profound understanding way of human vision system, is one of the key research areas in image processing, especially in terms of 3D reconstruction, depth estimation. We can divide these literature in two sub class which are monocular and binocular stereo vision. For monocular stereo vision, we can say depth from movement too. It means we use images which was taken from the same camera but in different time with some of translation. It is obvious that, this camera has to move. Unless we cannot take different pose of environment. In that scenario there are some more issues such as we have to estimate camera transformation from first timestamp to the second time stamp and this translation is not fixed. Binocular stereo vision system is about using two identical and same baseline camera, so we know the translation to left one to the right one. That is why binocular stereo system is more practical and relatively easy than another’s. 
+
+Binocular stereo system is the one concentration point of us in that research. Calibrated camera and already rectified pair of images will be input of our system. For that reason, we will just focus on horizontal disparity within these two camera images. As the same in human being visual system as well, the closest object’s horizontal disparities’ are bigger than the farthest object’s disparities. So we can say the farthest object the lesser disparity. Within disparity calculation, we can reconstruct 3D model of the environment with this information. Depth information is very important especially in medical sciences, game industry, robotic and virtual reality application. 
+By the first step which consist of camera calibration and rectifying, we can get the two image’s line scans represent almost the same part of the sensing environment. Second step is more crucial and important in stereo vision literature which consist of finding correspondence within the left and right image. In literature there are plenty of different methods and still most of the researches carry on to this subject. We do not make a profound literature review, but basically we can divide these method into two group named, feature based and region based methods. Briefly, region based method tries to match sub-region of both left and right images, but feature based method tries to match not all the pixels but just some more important pixels. To find best matches, we can use some distance measuring approach such as correlation or SSD measures. But every times find the best matches does not give us best performance for overall matching results. To gain overall best matching in literature there are dynamic programming approach and energy minimization approach called Markov Random Field. 
+
+In this project, we implemented three disparity estimation algorithm which are simple block matching, block matching with dynamic programming approach and finally Stereo Matching using Belief Propagation algorithm.
+
+## Simple Block Matching
+
+To find corresponding points in stereo images, one of the common and benchmark method is obviously plain block matching. This algorithm is used in this research as the beginning algorithm to find corresponding points between the left and right images that used along the experimental of stereo matching. The block matching algorithm is used to minimize the matching errors between the blocks at any position into reference left image and right image. To find the most similar block we need to check all possible block in the right image which has the same row number but different columns. The searching space has to be in allowable disparity which has to be given once.  To measure similarity between reference block and the block checked, sum of absolute difference (SAD) was used in this research [1]. We can summarize this approach as following equation.
+
+*diff(y,x)_d=∑_(-W≤j≤W) ∑_(-W≤i≤W) |I_left (y+j,x+i)-I_right (y+j,x+i+d)|,      for  d=[0,d_max]*
+
+In that formula (y,x) refers pixel position of the image. Ileft and Iright shows reference (left) and right image. W refers the halh of the block size. As you can see the summing space is from –W to +W. So we need to calculate 2*W+1 rows and cols, which means the total of block size is 2*W+1. We need to calculate this sum of absolute value for every single pixel and for every d value in range of [0, dmax]. As a result we can assign disparirt value of pixel located (y,x) by following equation.
+
+*disparity(y,x)=argmin┬d⁡(diff(y,x)_d)*
+
+Which means, we need to select optimum d value which provide us minimum diff value which calculated for location (y,x) along the 2*W+1 block size.
+
 
 ## Reference
 [1] Y.Chen, Y.Hung et al.2001.Fast Block Matching Algorithm Based on the Winner-Update Strategy. In IEEE, 10(8), pp.1212-1222
