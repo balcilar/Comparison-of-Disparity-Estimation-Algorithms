@@ -33,7 +33,16 @@ for i=1:size(dst,2)
     dst(:,i)=tmp;
 end
 
-val=dst-repmat(mean(dst),1,size(dst,2));
+
+%val=dst-mean(dst);
+
+if size(dst,2)==1
+    val=dst-repmat(mean(dst),1,size(dst,2));
+else
+    val=dst-repmat(mean(dst),size(dst,1),1);
+
+end
+    
 
 dst=reshape(val',[a b c]);
 
